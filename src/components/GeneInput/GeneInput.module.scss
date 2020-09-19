@@ -1,0 +1,40 @@
+$size: 40px;
+
+.container {
+  display: flex;
+}
+
+.geneContainer {
+  width: $size;
+  height: $size;
+  border-radius: $size / 2;
+  background: #eee;
+  margin-right: 5px;
+
+  &[data-gene='Y'],
+  &[data-gene='G'],
+  &[data-gene='H'] {
+    background: green;
+  }
+
+  &[data-gene='X'],
+  &[data-gene='W'] {
+    background: red;
+  }
+}
+
+.geneInput {
+  color: black;
+  width: $size;
+  height: $size;
+  border: none;
+  outline: none;
+  background: none;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+
+  &.hasValue {
+    color: white;
+  }
+}
