@@ -1,11 +1,11 @@
 import React from 'react'
-import { GeneInput } from './components/GeneInput'
+import { Table } from './components/Table'
 
 function App() {
   return (
     <div className="App">
       <div style={{ padding: 60 }}>
-        <GeneInput onChange={(v) => console.info('onChange', v)} />
+        <Table />
       </div>
     </div>
   )

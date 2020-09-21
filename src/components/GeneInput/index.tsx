@@ -6,10 +6,17 @@ const KEYCODE_BACKSPACE = 8
 
 interface Props {
   initialValue?: string[]
-  onChange: (value: string[]) => void
+  value?: string[]
+  onChange?: (value: string[]) => void
+  disabled?: boolean
 }
 
-export const GeneInput: FC<Props> = ({ onChange, initialValue }) => {
+export const GeneInput: FC<Props> = ({
+  onChange,
+  initialValue,
+  value,
+  disabled,
+}) => {
   const refs = [
     useRef(null),
     useRef(null),
@@ -22,24 +29,34 @@ export const GeneInput: FC<Props> = ({ onChange, initialValue }) => {
     initialValue ? initialValue : ['', '', '', '', '', '']
   )
 
+  const realValue: string[] = value ? value : values
+
+  if (value && value.filter((v) => v !== '').length === 0) {
+    refs[0].current && (refs[0].current as any).focus()
+  }
+
   function setValue(i: number, value: string) {
-    const newValues = values.slice()
+    if (disabled) return
+
+    const newValues = realValue.slice()
     newValues[i] = value
-    setValues(newValues)
-    onChange(newValues)
+    if (!value) setValues(newValues)
+    onChange && onChange(newValues)
   }
 
   return (
     <div className={styles.container}>
       {refs.map((ref, i) => (
-        <div key={i} data-gene={values[i]} className={styles.geneContainer}>
+        <div key={i} data-gene={realValue[i]} className={styles.geneContainer}>
           <input
             ref={ref}
             className={classnames(styles.geneInput, {
-              [styles.hasValue]: !!values[i],
+              [styles.hasValue]: !!realValue[i],
             })}
-            value={values[i]}
+            disabled={disabled}
+            value={realValue[i]}
             onKeyDown={(e: any) => {
+              if (disabled) return
               if (e.which !== KEYCODE_BACKSPACE) {
                 return
               }
