@@ -1,13 +1,15 @@
 import React from 'react'
-import { Table } from './components/Table'
+import { Layout } from './components/Layout'
+import { Provider } from 'react-redux'
+import { configureStore } from './store/configure'
+
+const store = configureStore()
 
 function App() {
   return (
-    <div className="App">
-      <div style={{ padding: 60 }}>
-        <Table />
-      </div>
-    </div>
+    <Provider store={store}>
+      <Layout />
+    </Provider>
   )
 }
 
