@@ -1,2 +1,17 @@
 .container {
 }
+
+.row {
+  .column {
+    margin-right: 20px;
+  }
+}
+
+.resultRow {
+  padding-top: 30px;
+  border-top: 2px solid #ddd;
+
+  .row {
+    padding-bottom: 10px;
+  }
+}

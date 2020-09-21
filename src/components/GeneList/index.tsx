@@ -15,9 +15,10 @@ const sizes = {
 interface Props {
   genes: string[]
   size?: 'small' | 'large'
+  hideEmpty?: boolean
 }
 
-export const GeneList: FC<Props> = ({ genes, size = 'large' }) => {
+export const GeneList: FC<Props> = ({ genes, size = 'large', hideEmpty }) => {
   const sizeObj = sizes[size]
 
   return (
@@ -25,6 +26,7 @@ export const GeneList: FC<Props> = ({ genes, size = 'large' }) => {
       {genes.map((g, i) => (
         <div
           style={{
+            backgroundColor: !g && hideEmpty ? 'transparent' : undefined,
             width: sizeObj.size,
             height: sizeObj.size,
             fontSize: sizeObj.fontSize,
