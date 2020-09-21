@@ -1,13 +1,14 @@
 import React, { FC, useRef, useState } from 'react'
 import styles from './GeneInput.module.scss'
 import classnames from 'classnames'
+import { Gene } from '../../models/Clone'
 
 const KEYCODE_BACKSPACE = 8
 
 interface Props {
-  initialValue?: string[]
-  value?: string[]
-  onChange?: (value: string[]) => void
+  initialValue?: Gene[]
+  value?: Gene[]
+  onChange?: (value: Gene[]) => void
   disabled?: boolean
 }
 
@@ -25,17 +26,17 @@ export const GeneInput: FC<Props> = ({
     useRef(null),
     useRef(null),
   ]
-  const [values, setValues] = useState(
+  const [values, setValues] = useState<Gene[]>(
     initialValue ? initialValue : ['', '', '', '', '', '']
   )
 
-  const realValue: string[] = value ? value : values
+  const realValue: Gene[] = value ? value : values
 
   if (value && value.filter((v) => v !== '').length === 0) {
     refs[0].current && (refs[0].current as any).focus()
   }
 
-  function setValue(i: number, value: string) {
+  function setValue(i: number, value: Gene) {
     if (disabled) return
 
     const newValues = realValue.slice()
@@ -68,7 +69,7 @@ export const GeneInput: FC<Props> = ({
               }
             }}
             onChange={(e) => {
-              const value = e.target.value.toUpperCase()
+              const value = e.target.value.toUpperCase() as Gene
               if (allowedGenes.includes(value) || value === '') {
                 setValue(i, value)
 

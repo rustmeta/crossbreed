@@ -4,6 +4,8 @@ import {
   DELETE_CLONE,
   SELECT_CLONE,
   DESELECT_CLONE,
+  STAR_CLONE,
+  UNSTAR_CLONE,
 } from './types'
 import { Gene } from '../../models/Clone'
 
@@ -37,6 +39,24 @@ export function selectClone(id: string): CloneActionType {
 export function deselectClone(id: string): CloneActionType {
   return {
     type: DESELECT_CLONE,
+    payload: {
+      id,
+    },
+  }
+}
+
+export function starClone(id: string): CloneActionType {
+  return {
+    type: STAR_CLONE,
+    payload: {
+      id,
+    },
+  }
+}
+
+export function unstarClone(id: string): CloneActionType {
+  return {
+    type: UNSTAR_CLONE,
     payload: {
       id,
     },

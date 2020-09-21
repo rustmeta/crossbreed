@@ -3,11 +3,12 @@ import styles from './Table.module.scss'
 import { GeneInput } from '../GeneInput'
 import classNames from 'classnames'
 import { crossbreed } from '../../lib/crossbreed'
+import { Gene } from '../../models/Clone'
 
 interface Props {}
 
 interface State {
-  clones: string[][]
+  clones: Gene[][]
   addNewValue: string[]
   validationError: string | null
 }
@@ -21,7 +22,7 @@ export class Table extends Component<Props, State> {
     validationError: null,
   }
 
-  addNewOnChange = (genes: string[]) => {
+  addNewOnChange = (genes: Gene[]) => {
     console.info('onChange', genes)
     if (genes.filter((g) => g !== '').length === 6) {
       const newClones = this.state.clones.slice()
@@ -39,7 +40,7 @@ export class Table extends Component<Props, State> {
     }
   }
 
-  save(clones: string[][]) {
+  save(clones: Gene[][]) {
     localStorage.setItem('clones', JSON.stringify(clones))
   }
 
@@ -74,9 +75,11 @@ export class Table extends Component<Props, State> {
         <div key={i} className={styles.row}>
           <GeneInput
             disabled
-            value={result.map((g) => {
-              return g.length > i ? g[i] : ''
-            })}
+            value={
+              result.map((g) => {
+                return g.length > i ? g[i] : ''
+              }) as Gene[]
+            }
           />
         </div>
       )
@@ -100,7 +103,10 @@ export class Table extends Component<Props, State> {
           ))}
         </div>
         <div className={classNames(styles.addNew, styles.row)}>
-          <GeneInput value={addNewValue} onChange={this.addNewOnChange} />
+          <GeneInput
+            value={addNewValue as Gene[]}
+            onChange={this.addNewOnChange}
+          />
         </div>
 
         <div className={styles.result}>

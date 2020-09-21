@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+}
+
+.gene {
+  color: white;
+  border-radius: 50%;
+  background: #eee;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &[data-gene='Y'],
+  &[data-gene='G'],
+  &[data-gene='H'] {
+    background: green;
+  }
+
+  &[data-gene='X'],
+  &[data-gene='W'] {
+    background: red;
+  }
+}
