@@ -48,7 +48,11 @@ const CrossbreedComponent: FC<Props> = ({ clones, changeAmountClone }) => {
 
   return (
     <div className={styles.container}>
-      <Card title="Crossbreeding">
+      <Card
+        title={`Crossbreeding (${clones.reduce((num, clone) => {
+          return num + (clone.selectedAmount ? clone.selectedAmount : 1)
+        }, 0)} seeds)`}
+      >
         <List
           dataSource={clones}
           renderItem={(item) => (
