@@ -1,7 +1,8 @@
 # TODO
 
 - [x] copy data (base64)
-- [] filter
+- [x] filter
+- [x] select all
 - [x] add duplicate
 - [] crossbreed amount field
 - [] clone stats (yield, time, water etc.)
