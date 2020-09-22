@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import { yellow } from '@ant-design/colors'
 import styles from './CloneList.module.scss'
 import { StarFilled, StarOutlined, DeleteOutlined } from '@ant-design/icons'
-import { List, Card, Button, Checkbox, Popconfirm } from 'antd'
+import { List, Card, Button, Checkbox, Popconfirm, Modal } from 'antd'
 import { connect } from 'react-redux'
 import { RootState } from '../../store/state'
 import { Clone, Gene } from '../../models/Clone'
@@ -16,6 +16,8 @@ import {
   starClone,
   unstarClone,
 } from '../../store/clones/actions'
+
+const { confirm } = Modal
 
 interface Props {
   inventory: Clone[]
@@ -62,10 +64,29 @@ const CloneListComponent: FC<Props> = ({
           <GeneInput
             value={addNewClone}
             onChange={(v) => {
-              if (v.filter((g) => g === '').length === 0) {
+              const add = () => {
                 setAddNewClone(emptyClone())
                 addClone(v)
                 setActiveTab('all')
+              }
+
+              if (v.filter((g) => g === '').length === 0) {
+                const geneString = v.join('')
+                const copies = inventory
+                  .map((i) => i.genes.join(''))
+                  .filter((g) => g === geneString)
+                if (copies.length > 0) {
+                  confirm({
+                    title: `There are already ${copies.length} clones added with same genetics. Are you sure you want to add a copy?`,
+                    onOk: add,
+                    onCancel: () => {
+                      setAddNewClone(emptyClone())
+                    },
+                  })
+                } else {
+                  add()
+                }
+
                 return
               }
 
