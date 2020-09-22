@@ -6,4 +6,5 @@
 - [] crossbreed amount field
 - [] clone stats (yield, time, water etc.)
 - [] pages
-- [] ML
+- [] ML/calculations
+- [] info box about genes
