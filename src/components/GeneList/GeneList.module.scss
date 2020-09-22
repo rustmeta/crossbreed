@@ -10,15 +10,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  &[data-gene='Y'],
-  &[data-gene='G'],
-  &[data-gene='H'] {
-    background: green;
-  }
-
-  &[data-gene='X'],
-  &[data-gene='W'] {
-    background: red;
-  }
 }

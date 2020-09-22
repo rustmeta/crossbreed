@@ -1,7 +1,12 @@
 import React, { FC, useState } from 'react'
 import { yellow } from '@ant-design/colors'
 import styles from './CloneList.module.scss'
-import { StarFilled, StarOutlined, DeleteOutlined } from '@ant-design/icons'
+import {
+  StarFilled,
+  StarOutlined,
+  DeleteOutlined,
+  SearchOutlined,
+} from '@ant-design/icons'
 import { List, Card, Button, Checkbox, Popconfirm, Modal } from 'antd'
 import { connect } from 'react-redux'
 import { RootState } from '../../store/state'
@@ -15,7 +20,10 @@ import {
   deleteClone,
   starClone,
   unstarClone,
+  selectAllClones,
+  deselectAllClones,
 } from '../../store/clones/actions'
+import classNames from 'classnames'
 
 const { confirm } = Modal
 
@@ -27,6 +35,8 @@ interface Props {
   deleteClone: typeof deleteClone
   starClone: typeof starClone
   unstarClone: typeof unstarClone
+  selectAllClones: typeof selectAllClones
+  deselectAllClones: typeof deselectAllClones
 }
 
 const tabList = [
@@ -48,9 +58,29 @@ const CloneListComponent: FC<Props> = ({
   deleteClone,
   starClone,
   unstarClone,
+  selectAllClones,
+  deselectAllClones,
 }) => {
   const [addNewClone, setAddNewClone] = useState(emptyClone())
   const [activeTab, setActiveTab] = useState('all')
+  const [filter, setFilter] = useState(emptyClone())
+
+  const hasFilter = filter.filter((c) => c !== '').length > 0
+
+  let dataSource =
+    activeTab === 'all' ? inventory : inventory.filter((c) => c.favorite)
+
+  if (hasFilter) {
+    dataSource = dataSource.filter((c) => {
+      for (let i = 0; i < 5; i++) {
+        if (filter[i] !== '' && filter[i] !== c.genes[i]) {
+          return false
+        }
+      }
+
+      return true
+    })
+  }
 
   return (
     <div className={styles.container}>
@@ -94,13 +124,44 @@ const CloneListComponent: FC<Props> = ({
             }}
           />
         </div>
+        <List size="small">
+          <List.Item>
+            <div className={classNames(styles.searchRow, styles.row)}>
+              <div className={styles.column}>
+                <Checkbox
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      selectAllClones()
+                    } else {
+                      deselectAllClones()
+                    }
+                  }}
+                  checked={
+                    inventory.filter((c) => c.selected).length ===
+                    inventory.length
+                  }
+                />
+              </div>
+              <div className={styles.column}>
+                <div className={styles.searchIconContainer}>
+                  <SearchOutlined style={{ fontSize: 20 }} />
+                </div>
+              </div>
+              <div
+                className={classNames(styles.genePickerContainer, styles.row)}
+              >
+                <GeneInput
+                  singleMode
+                  value={filter}
+                  onChange={(v) => setFilter(v)}
+                />
+              </div>
+            </div>
+          </List.Item>
+        </List>
         <List
           size="small"
-          dataSource={
-            activeTab === 'all'
-              ? inventory
-              : inventory.filter((c) => c.favorite)
-          }
+          dataSource={dataSource}
           renderItem={(item) => (
             <List.Item>
               <div className={styles.row}>
@@ -163,6 +224,8 @@ const mapDispatch = {
   deleteClone,
   starClone,
   unstarClone,
+  selectAllClones,
+  deselectAllClones,
 }
 
 export const CloneList = connect(

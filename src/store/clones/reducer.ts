@@ -7,6 +7,8 @@ import {
   DESELECT_CLONE,
   STAR_CLONE,
   UNSTAR_CLONE,
+  SELECT_ALL_CLONEs,
+  DESELECT_ALL_CLONEs,
 } from './types'
 import { Gene, Clone } from '../../models/Clone'
 import { v4 as uuid } from 'uuid'
@@ -46,6 +48,22 @@ export const clonesReducer = (
           if (c.id === action.payload.id) {
             c.selected = false
           }
+          return c
+        }),
+      }
+
+    case SELECT_ALL_CLONEs:
+      return {
+        inventory: state.inventory.map((c) => {
+          c.selected = true
+          return c
+        }),
+      }
+
+    case DESELECT_ALL_CLONEs:
+      return {
+        inventory: state.inventory.map((c) => {
+          c.selected = false
           return c
         }),
       }

@@ -2,6 +2,7 @@ import React, { FC, useRef, useState } from 'react'
 import styles from './GeneInput.module.scss'
 import classnames from 'classnames'
 import { Gene } from '../../models/Clone'
+import { green, red } from '@ant-design/colors'
 
 const KEYCODE_BACKSPACE = 8
 
@@ -10,6 +11,12 @@ interface Props {
   value?: Gene[]
   onChange?: (value: Gene[]) => void
   disabled?: boolean
+  singleMode?: boolean
+}
+
+const colors = {
+  bad: red.primary,
+  good: green.primary,
 }
 
 export const GeneInput: FC<Props> = ({
@@ -17,6 +24,7 @@ export const GeneInput: FC<Props> = ({
   initialValue,
   value,
   disabled,
+  singleMode,
 }) => {
   const refs = [
     useRef(null),
@@ -26,15 +34,16 @@ export const GeneInput: FC<Props> = ({
     useRef(null),
     useRef(null),
   ]
+
   const [values, setValues] = useState<Gene[]>(
     initialValue ? initialValue : ['', '', '', '', '', '']
   )
 
   const realValue: Gene[] = value ? value : values
 
-  if (value && value.filter((v) => v !== '').length === 0) {
-    refs[0].current && (refs[0].current as any).focus()
-  }
+  // if (!singleMode && value && value.filter((v) => v !== '').length === 0) {
+  //   refs[0].current && (refs[0].current as any).focus()
+  // }
 
   function setValue(i: number, value: Gene) {
     if (disabled) return
@@ -48,7 +57,15 @@ export const GeneInput: FC<Props> = ({
   return (
     <div className={styles.container}>
       {refs.map((ref, i) => (
-        <div key={i} data-gene={realValue[i]} className={styles.geneContainer}>
+        <div
+          key={i}
+          style={{
+            backgroundColor: realValue[i]
+              ? colors[['W', 'X'].includes(realValue[i]) ? 'bad' : 'good']
+              : '#eee',
+          }}
+          className={styles.geneContainer}
+        >
           <input
             ref={ref}
             className={classnames(styles.geneInput, {
@@ -64,8 +81,10 @@ export const GeneInput: FC<Props> = ({
 
               const value = e.target.value.toUpperCase() as string
               if (value === '' && i !== 0) {
-                setValue(i - 1, '')
-                refs[i - 1].current && (refs[i - 1].current as any).focus()
+                if (!singleMode) {
+                  setValue(i - 1, '')
+                  refs[i - 1].current && (refs[i - 1].current as any).focus()
+                }
               }
             }}
             onChange={(e) => {
@@ -73,11 +92,13 @@ export const GeneInput: FC<Props> = ({
               if (allowedGenes.includes(value) || value === '') {
                 setValue(i, value)
 
-                if (value !== '' && i !== 5) {
+                if (!singleMode && value !== '' && i !== 5) {
                   const nextRef = refs[i + 1]
                   if (nextRef.current !== null) {
                     ;(nextRef.current as any).focus()
                   }
+                } else if (!singleMode && i === 5) {
+                  refs[0].current && (refs[0].current as any).focus()
                 }
               }
             }}

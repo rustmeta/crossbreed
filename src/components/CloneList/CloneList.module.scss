@@ -19,3 +19,21 @@
     flex: 1;
   }
 }
+
+.searchRow {
+  display: flex;
+
+  .selectAllColumn {
+  }
+
+  .searchIconContainer {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .genePickerContainer {
+  }
+}

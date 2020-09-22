@@ -1,4 +1,4 @@
-$size: 40px;
+$size: 30px;
 
 .container {
   display: flex;
@@ -10,17 +10,6 @@ $size: 40px;
   border-radius: $size / 2;
   background: #eee;
   margin-right: 5px;
-
-  &[data-gene='Y'],
-  &[data-gene='G'],
-  &[data-gene='H'] {
-    background: green;
-  }
-
-  &[data-gene='X'],
-  &[data-gene='W'] {
-    background: red;
-  }
 }
 
 .geneInput {

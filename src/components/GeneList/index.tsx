@@ -1,3 +1,4 @@
+import { green, red } from '@ant-design/colors'
 import React, { FC } from 'react'
 import styles from './GeneList.module.scss'
 
@@ -18,6 +19,11 @@ interface Props {
   hideEmpty?: boolean
 }
 
+const colors = {
+  bad: red.primary,
+  good: green.primary,
+}
+
 export const GeneList: FC<Props> = ({ genes, size = 'large', hideEmpty }) => {
   const sizeObj = sizes[size]
 
@@ -26,13 +32,15 @@ export const GeneList: FC<Props> = ({ genes, size = 'large', hideEmpty }) => {
       {genes.map((g, i) => (
         <div
           style={{
-            backgroundColor: !g && hideEmpty ? 'transparent' : undefined,
+            backgroundColor:
+              !g && hideEmpty
+                ? 'transparent'
+                : colors[g === 'W' || g === 'X' ? 'bad' : 'good'],
             width: sizeObj.size,
             height: sizeObj.size,
             fontSize: sizeObj.fontSize,
           }}
           key={i}
-          data-gene={g}
           className={styles.gene}
         >
           {g}

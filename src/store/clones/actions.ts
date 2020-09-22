@@ -6,6 +6,8 @@ import {
   DESELECT_CLONE,
   STAR_CLONE,
   UNSTAR_CLONE,
+  SELECT_ALL_CLONEs,
+  DESELECT_ALL_CLONEs,
 } from './types'
 import { Gene } from '../../models/Clone'
 
@@ -33,6 +35,18 @@ export function selectClone(id: string): CloneActionType {
     payload: {
       id,
     },
+  }
+}
+
+export function selectAllClones(): CloneActionType {
+  return {
+    type: SELECT_ALL_CLONEs,
+  }
+}
+
+export function deselectAllClones(): CloneActionType {
+  return {
+    type: DESELECT_ALL_CLONEs,
   }
 }
 

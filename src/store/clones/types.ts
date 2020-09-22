@@ -3,6 +3,8 @@ import { Gene } from '../../models/Clone'
 export const ADD_CLONE = 'ADD_CLONE'
 export const DELETE_CLONE = 'DELETE_CLONE'
 export const SELECT_CLONE = 'SELECT_CLONE'
+export const SELECT_ALL_CLONEs = 'SELECT_ALL_CLONEs'
+export const DESELECT_ALL_CLONEs = 'DESELECT_ALL_CLONEs'
 export const DESELECT_CLONE = 'DESELECT_CLONE'
 export const STAR_CLONE = 'STAR_CLONE'
 export const UNSTAR_CLONE = 'UNSTAR_CLONE'
@@ -26,6 +28,14 @@ interface SelectCloneAction {
   payload: {
     id: string
   }
+}
+
+interface SelectAllCloneAction {
+  type: typeof SELECT_ALL_CLONEs
+}
+
+interface DeselectAllCloneAction {
+  type: typeof DESELECT_ALL_CLONEs
 }
 
 interface DeSelectCloneAction {
@@ -56,3 +66,5 @@ export type CloneActionType =
   | DeSelectCloneAction
   | StarCloneAction
   | UnstarCloneAction
+  | SelectAllCloneAction
+  | DeselectAllCloneAction
