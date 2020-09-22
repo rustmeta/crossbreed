@@ -1,6 +1,6 @@
 # TODO
 
-- [] copy data (base64)
+- [x] copy data (base64)
 - [] filter
 - [] add duplicate
 - [] crossbreed amount field
