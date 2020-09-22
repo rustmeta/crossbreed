@@ -1,8 +1,9 @@
 import { RootState } from './state'
+import { LOCALSTORAGE_KEY } from '../constants/storage'
 
 export const loadState = () => {
   try {
-    const serializedState = localStorage.getItem('state')
+    const serializedState = localStorage.getItem(LOCALSTORAGE_KEY)
     if (serializedState === null) {
       return undefined
     }
@@ -15,7 +16,7 @@ export const loadState = () => {
 export const saveState = (state: RootState) => {
   try {
     const serializedState = JSON.stringify(state)
-    localStorage.setItem('state', serializedState)
+    localStorage.setItem(LOCALSTORAGE_KEY, serializedState)
     console.info('state saved')
   } catch {
     // ignore write errors

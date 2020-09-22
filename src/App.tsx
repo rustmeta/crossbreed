@@ -13,4 +13,6 @@ function App() {
   )
 }
 
+App.store = store
+
 export default App
