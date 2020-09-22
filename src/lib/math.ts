@@ -1,4 +1,4 @@
-export function* bwPowerSet(originalSet, maxDepth = -1) {
+export function* bwPowerSet(originalSet: any, maxDepth = -1) {
   if (maxDepth === -1) maxDepth = originalSet.length
   const numberOfCombinations = 2 ** originalSet.length
   for (

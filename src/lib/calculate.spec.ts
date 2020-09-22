@@ -7,6 +7,9 @@ describe('calculate best', () => {
       false
     )
     expect(res).not.toBeNull()
+    if (!res) {
+      return
+    }
 
     const { result, clones } = res
     expect(result).toBe('YGGGYG')

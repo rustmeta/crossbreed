@@ -1,18 +1,21 @@
 import { bwPowerSet } from './math'
 
+interface Cache {
+  [key: string]: any
+}
+
+type Gene = 'W' | 'X' | 'Y' | 'G' | 'H'
+
 export function calculateBest(crops: string[], useCache = true) {
-  // Find the best combination
-  let max_crop_parents: string[]
+  let max_crop_parents: string[] = []
   let max_crop_value = -7
-  let max_crop: string
+  let max_crop = ''
   let min_crop_parents_length = undefined
 
-  // For every possible combination
   for (const parents of bwPowerSet(crops, 8)) {
     let crop = crossbreed(parents)
     let value = evaluateCrop(crop, useCache)
 
-    // Set better crop if it is better or if it is equal and has less parents
     if (
       value > max_crop_value ||
       (min_crop_parents_length !== undefined &&
@@ -71,9 +74,9 @@ export function evaluateCrop(crop: string, use_cache = true) {
   evaluateCrop.cache[key] = value
   return value
 }
-evaluateCrop.cache = {}
+evaluateCrop.cache = {} as Cache
 
-function crossbreed(parents) {
+function crossbreed(parents: any) {
   // Use caching to speed up the function
   let key = parents.join('')
   if (crossbreed.cache[key] != null) {
@@ -92,15 +95,16 @@ function crossbreed(parents) {
     }
 
     // Add up all the parent genes at i-th gene
-    parents.forEach((parent) => {
-      let c = parent.charAt(i)
+    parents.forEach((parent: any) => {
+      let c = parent.charAt(i) as Gene
       gene_table[c] += c === 'X' || c === 'W' ? 1 : 0.6
     })
 
     // Find the dominant one
     let max_gene = '?'
     let max_crop_value = 0.6
-    Object.keys(gene_table).forEach((gene) => {
+
+    ;(Object.keys(gene_table) as Gene[]).forEach((gene: Gene) => {
       // Set new dominant gene if it is stronger or if it is equal in strength and is randomly better
       if (
         gene_table[gene] > max_crop_value ||
@@ -119,4 +123,4 @@ function crossbreed(parents) {
   crossbreed.cache[key] = child
   return child
 }
-crossbreed.cache = {}
+crossbreed.cache = {} as Cache
