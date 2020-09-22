@@ -9,3 +9,4 @@
 - [] pages
 - [] ML/calculations
 - [] info box about genes
+- [] layout fix (scroll etc.)
