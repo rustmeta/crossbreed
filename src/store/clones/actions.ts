@@ -8,6 +8,7 @@ import {
   UNSTAR_CLONE,
   SELECT_ALL_CLONEs,
   DESELECT_ALL_CLONEs,
+  CHANGE_AMOUNT_CLONE,
 } from './types'
 import { Gene } from '../../models/Clone'
 
@@ -73,6 +74,16 @@ export function unstarClone(id: string): CloneActionType {
     type: UNSTAR_CLONE,
     payload: {
       id,
+    },
+  }
+}
+
+export function changeAmountClone(id: string, amount: number) {
+  return {
+    type: CHANGE_AMOUNT_CLONE,
+    payload: {
+      id,
+      amount,
     },
   }
 }

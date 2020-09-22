@@ -2,6 +2,7 @@ export interface Clone {
   id: string
   genes: Gene[]
   selected?: boolean
+  selectedAmount?: number
   favorite?: boolean
 }
 

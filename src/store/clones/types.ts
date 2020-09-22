@@ -8,6 +8,7 @@ export const DESELECT_ALL_CLONEs = 'DESELECT_ALL_CLONEs'
 export const DESELECT_CLONE = 'DESELECT_CLONE'
 export const STAR_CLONE = 'STAR_CLONE'
 export const UNSTAR_CLONE = 'UNSTAR_CLONE'
+export const CHANGE_AMOUNT_CLONE = 'CHANGE_AMOUNT_CLONE'
 
 interface AddCloneAction {
   type: typeof ADD_CLONE
@@ -59,6 +60,14 @@ interface UnstarCloneAction {
   }
 }
 
+interface ChangeAmountCloneAction {
+  type: typeof CHANGE_AMOUNT_CLONE
+  payload: {
+    id: string
+    amount: number
+  }
+}
+
 export type CloneActionType =
   | AddCloneAction
   | DeleteCloneAction
@@ -68,3 +77,4 @@ export type CloneActionType =
   | UnstarCloneAction
   | SelectAllCloneAction
   | DeselectAllCloneAction
+  | ChangeAmountCloneAction

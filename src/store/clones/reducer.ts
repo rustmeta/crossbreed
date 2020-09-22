@@ -9,6 +9,7 @@ import {
   UNSTAR_CLONE,
   SELECT_ALL_CLONEs,
   DESELECT_ALL_CLONEs,
+  CHANGE_AMOUNT_CLONE,
 } from './types'
 import { Gene, Clone } from '../../models/Clone'
 import { v4 as uuid } from 'uuid'
@@ -37,6 +38,7 @@ export const clonesReducer = (
         inventory: state.inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.selected = true
+            c.selectedAmount = 1
           }
           return c
         }),
@@ -47,6 +49,7 @@ export const clonesReducer = (
         inventory: state.inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.selected = false
+            c.selectedAmount = 1
           }
           return c
         }),
@@ -64,6 +67,7 @@ export const clonesReducer = (
       return {
         inventory: state.inventory.map((c) => {
           c.selected = false
+          c.selectedAmount = 1
           return c
         }),
       }
@@ -84,6 +88,18 @@ export const clonesReducer = (
           if (c.id === action.payload.id) {
             c.favorite = false
           }
+          return c
+        }),
+      }
+
+    case CHANGE_AMOUNT_CLONE:
+      return {
+        inventory: state.inventory.map((c) => {
+          if (c.id === action.payload.id) {
+            c.selectedAmount =
+              action.payload.amount > 0 ? action.payload.amount : 1
+          }
+
           return c
         }),
       }
