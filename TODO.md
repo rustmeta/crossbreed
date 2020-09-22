@@ -4,7 +4,8 @@
 - [x] filter
 - [x] select all
 - [x] add duplicate
-- [] crossbreed amount field
+- [x] crossbreed amount field
+- [] crossbreed limit seeds (incl amount field)
 - [] clone stats (yield, time, water etc.)
 - [] pages
 - [] ML/calculations
