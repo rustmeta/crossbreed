@@ -13,6 +13,9 @@ import {
 } from './types'
 import { Gene, Clone } from '../../models/Clone'
 import { v4 as uuid } from 'uuid'
+import { countSeeds } from '../../lib/crossbreed'
+import { message } from 'antd'
+import { RootState } from '../state'
 
 const initialState: ClonesState = {
   inventory: [],
@@ -24,6 +27,10 @@ export const clonesReducer = (
 ): ClonesState => {
   switch (action.type) {
     case ADD_CLONE:
+      if (!checkCount(state)) {
+        return state
+      }
+
       return {
         inventory: [...state.inventory, createClone(action.payload.genes)],
       }
@@ -34,6 +41,10 @@ export const clonesReducer = (
       }
 
     case SELECT_CLONE:
+      if (!checkCount(state)) {
+        return state
+      }
+
       return {
         inventory: state.inventory.map((c) => {
           if (c.id === action.payload.id) {
@@ -56,6 +67,10 @@ export const clonesReducer = (
       }
 
     case SELECT_ALL_CLONEs:
+      if (!checkCount(state)) {
+        return state
+      }
+
       return {
         inventory: state.inventory.map((c) => {
           c.selected = true
@@ -93,6 +108,10 @@ export const clonesReducer = (
       }
 
     case CHANGE_AMOUNT_CLONE:
+      if (!checkCount(state)) {
+        return state
+      }
+
       return {
         inventory: state.inventory.map((c) => {
           if (c.id === action.payload.id) {
@@ -114,4 +133,16 @@ function createClone(genes: Gene[]): Clone {
     id: uuid(),
     genes,
   }
+}
+
+function checkCount(state: ClonesState) {
+  const clones = state.inventory.filter((c) => c.selected)
+  const count = countSeeds(clones)
+
+  if (count >= 8) {
+    message.error('You can only fit 8 + 1 seed in a large planter box')
+    return false
+  }
+
+  return true
 }

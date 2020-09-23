@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { RootState } from '../../store/state'
 import { Clone, Gene } from '../../models/Clone'
 import { GeneList } from '../GeneList'
-import { crossbreed } from '../../lib/crossbreed'
+import { countSeeds, crossbreed } from '../../lib/crossbreed'
 import { CloseOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons'
 import { changeAmountClone } from '../../store/clones/actions'
 
@@ -48,11 +48,7 @@ const CrossbreedComponent: FC<Props> = ({ clones, changeAmountClone }) => {
 
   return (
     <div className={styles.container}>
-      <Card
-        title={`Crossbreeding (${clones.reduce((num, clone) => {
-          return num + (clone.selectedAmount ? clone.selectedAmount : 1)
-        }, 0)} seeds)`}
-      >
+      <Card title={`Crossbreeding (${countSeeds(clones)} seeds)`}>
         <List
           dataSource={clones}
           renderItem={(item) => (

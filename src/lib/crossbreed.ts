@@ -1,3 +1,5 @@
+import { Clone } from '../models/Clone'
+
 const weight = {
   Y: 0.6,
   H: 0.6,
@@ -5,6 +7,12 @@ const weight = {
 
   W: 1,
   X: 1,
+}
+
+export function countSeeds(clones: Clone[]) {
+  return clones.reduce((num, clone) => {
+    return num + (clone.selectedAmount ? clone.selectedAmount : 1)
+  }, 0)
 }
 
 export function crossbreed(clones: string[][]) {
