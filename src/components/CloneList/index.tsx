@@ -6,6 +6,7 @@ import {
   StarOutlined,
   DeleteOutlined,
   SearchOutlined,
+  CloseOutlined,
 } from '@ant-design/icons'
 import { List, Card, Button, Checkbox, Popconfirm, Modal } from 'antd'
 import { connect, DispatchProp } from 'react-redux'
@@ -49,7 +50,6 @@ const CloneListComponent: FC<Props> = ({ inventory, filter, dispatch }) => {
   const [activeTab, setActiveTab] = useState('all')
 
   const hasFilter = filter && filter.filter((c) => c !== '').length > 0
-
   let dataSource =
     activeTab === 'all' ? inventory : inventory.filter((c) => c.favorite)
 
@@ -142,13 +142,27 @@ const CloneListComponent: FC<Props> = ({ inventory, filter, dispatch }) => {
                 </div>
               </div>
               <div
-                className={classNames(styles.genePickerContainer, styles.row)}
+                className={classNames(
+                  styles.genePickerContainer,
+                  styles.column
+                )}
               >
                 <GeneInput
                   singleMode
                   value={filter}
                   onChange={(v) => dispatch(setFilter(v))}
                 />
+              </div>
+              <div className={styles.column}>
+                {hasFilter && (
+                  <Button
+                    onClick={() => dispatch(setFilter(emptyClone()))}
+                    icon={<CloseOutlined />}
+                    shape="round"
+                  >
+                    Clear filter
+                  </Button>
+                )}
               </div>
             </div>
           </List.Item>
