@@ -9,7 +9,7 @@ import {
   CloseOutlined,
 } from '@ant-design/icons'
 import { List, Card, Button, Checkbox, Popconfirm, Modal } from 'antd'
-import { connect, DispatchProp } from 'react-redux'
+import { connect } from 'react-redux'
 import { RootState } from '../../store/state'
 import { Clone, emptyClone, Gene } from '../../models/Clone'
 import { GeneInput } from '../GeneInput'
@@ -26,12 +26,18 @@ import {
   setFilter,
 } from '../../store/clones/actions'
 import classNames from 'classnames'
+import { ThunkDispatch } from 'redux-thunk'
+import { Action } from 'redux'
 
 const { confirm } = Modal
 
-interface Props extends DispatchProp {
+interface Props {
   inventory: Clone[]
   filter: Gene[]
+}
+
+interface Dispatch {
+  dispatch: ThunkDispatch<RootState, unknown, Action>
 }
 
 const tabList = [
@@ -45,7 +51,11 @@ const tabList = [
   },
 ]
 
-const CloneListComponent: FC<Props> = ({ inventory, filter, dispatch }) => {
+const CloneListComponent: FC<Props & Dispatch> = ({
+  inventory,
+  filter,
+  dispatch,
+}) => {
   const [addNewClone, setAddNewClone] = useState(emptyClone())
   const [activeTab, setActiveTab] = useState('all')
 
@@ -222,8 +232,8 @@ const CloneListComponent: FC<Props> = ({ inventory, filter, dispatch }) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  inventory: state.clones.inventory,
-  filter: state.clones.filter,
+  inventory: state.clones.pages[state.pages.activePage].inventory,
+  filter: state.clones.pages[state.pages.activePage].filter,
 })
 
 export const CloneList = connect(mapStateToProps)(CloneListComponent)

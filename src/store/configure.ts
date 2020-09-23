@@ -4,9 +4,11 @@ import { rootReducer } from './rootReducer'
 import { RootState } from './state'
 import { loadState, saveState } from './persist'
 import throttle from 'lodash/throttle'
+import thunk from 'redux-thunk'
+import { pageMiddleware } from './middlewares/page'
 
 export function configureStore(): Store<RootState> {
-  let middleware = applyMiddleware()
+  let middleware = applyMiddleware(thunk, pageMiddleware)
 
   if (process.env.NODE_ENV !== 'production') {
     middleware = composeWithDevTools(middleware)
@@ -19,13 +21,6 @@ export function configureStore(): Store<RootState> {
     persistedState as any,
     middleware
   ) as Store<RootState>
-
-  //   if ((module as any).hot) {
-  //     ;(module as any).hot.accept('app/reducers', () => {
-  //       const nextReducer = require('app/reducers')
-  //       store.replaceReducer(nextReducer)
-  //     })
-  //   }
 
   store.subscribe(
     throttle(() => {

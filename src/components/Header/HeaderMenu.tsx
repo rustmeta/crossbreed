@@ -1,9 +1,9 @@
 import { EllipsisOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Menu, message, Input, Modal } from 'antd'
 import React, { FC, useState } from 'react'
-import App from '../../App'
 import { LOCALSTORAGE_KEY } from '../../constants/storage'
 import { copyToClipboard } from '../../lib/copy'
+import { store } from '../../store'
 
 const { confirm } = Modal
 
@@ -20,7 +20,7 @@ export const HeaderMenu: FC<Props> = () => {
       <Menu.Item
         onClick={() => {
           try {
-            copyToClipboard(btoa(JSON.stringify(App.store.getState())))
+            copyToClipboard(btoa(JSON.stringify(store.getState())))
             message.success('Data copied to clipboard')
           } catch {}
         }}

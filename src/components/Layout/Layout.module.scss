@@ -29,3 +29,14 @@
   flex-direction: column;
   padding: 20px 20px 20px 10px;
 }
+
+.pages {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tabs {
+  width: 100%;
+  display: flex;
+}

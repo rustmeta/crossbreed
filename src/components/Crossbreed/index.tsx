@@ -13,13 +13,17 @@ import {
   PlusOutlined,
 } from '@ant-design/icons'
 import { changeAmountClone } from '../../store/clones/actions'
+import { ThunkDispatch } from 'redux-thunk'
 
 interface Props {
   clones: Clone[]
-  changeAmountClone: typeof changeAmountClone
 }
 
-const CrossbreedComponent: FC<Props> = ({ clones, changeAmountClone }) => {
+interface Dispatch {
+  dispatch: ThunkDispatch<any, any, any>
+}
+
+const CrossbreedComponent: FC<Props & Dispatch> = ({ clones, dispatch }) => {
   function renderResult(clones: Clone[]) {
     if (clones.length === 0) {
       return
@@ -89,9 +93,13 @@ const CrossbreedComponent: FC<Props> = ({ clones, changeAmountClone }) => {
                           size="small"
                           shape="circle"
                           onClick={() =>
-                            changeAmountClone(
-                              item.id,
-                              item.selectedAmount ? item.selectedAmount + 1 : 2
+                            dispatch(
+                              changeAmountClone(
+                                item.id,
+                                item.selectedAmount
+                                  ? item.selectedAmount + 1
+                                  : 2
+                              )
                             )
                           }
                           icon={<PlusOutlined />}
@@ -155,14 +163,9 @@ function copyClone(clone: Clone) {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  clones: state.clones.inventory.filter((c) => c.selected),
+  clones: state.clones.pages[state.pages.activePage].inventory.filter(
+    (c) => c.selected
+  ),
 })
 
-const mapDispatch = {
-  changeAmountClone,
-}
-
-export const Crossbreed = connect(
-  mapStateToProps,
-  mapDispatch
-)(CrossbreedComponent)
+export const Crossbreed = connect(mapStateToProps)(CrossbreedComponent)

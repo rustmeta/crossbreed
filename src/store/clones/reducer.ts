@@ -16,38 +16,73 @@ import { Gene, Clone, emptyClone } from '../../models/Clone'
 import { v4 as uuid } from 'uuid'
 import { countSeeds } from '../../lib/crossbreed'
 import { message } from 'antd'
+import { initialId } from '../pages/reducer'
+import { ActivePageAction } from '../types'
+import { ADD_PAGE, DELETE_PAGE, PageActionType } from '../pages/types'
 
 const initialState: ClonesState = {
-  inventory: [],
-  filter: emptyClone(),
+  pages: {
+    [initialId]: emptyState(),
+  },
 }
 
 export const clonesReducer = (
   state = initialState,
-  action: CloneActionType
+  action:
+    | (CloneActionType & ActivePageAction)
+    | (PageActionType & ActivePageAction)
 ): ClonesState => {
+  const page = action.activePage
+  const inventory = page ? state.pages[page].inventory : []
+
+  function assign(mod: any) {
+    const newActive = Object.assign({}, state.pages[page], mod)
+
+    return Object.assign(
+      {},
+      {
+        pages: {
+          ...state.pages,
+          [page]: newActive,
+        },
+      }
+    )
+  }
+
+  function checkCount() {
+    const clones = inventory.filter((c) => c.selected)
+    const count = countSeeds(clones)
+
+    if (count >= 8) {
+      message.error('You can only fit 8 + 1 seed in a large planter box')
+      return false
+    }
+
+    return true
+  }
+
   switch (action.type) {
     case ADD_CLONE:
-      if (!checkCount(state)) {
+      if (!checkCount()) {
         return state
       }
 
-      return Object.assign({}, state, {
-        inventory: [...state.inventory, createClone(action.payload.genes)],
+      return assign({
+        inventory: [...inventory, createClone(action.payload.genes)],
       })
 
     case DELETE_CLONE:
-      return Object.assign({}, state, {
-        inventory: state.inventory.filter((c) => c.id !== action.payload.id),
+      return assign({
+        inventory: inventory.filter((c) => c.id !== action.payload.id),
       })
 
     case SELECT_CLONE:
-      if (!checkCount(state)) {
+      if (!checkCount()) {
         return state
       }
 
-      return Object.assign({}, state, {
-        inventory: state.inventory.map((c) => {
+      return assign({
+        inventory: inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.selected = true
             c.selectedAmount = 1
@@ -57,8 +92,8 @@ export const clonesReducer = (
       })
 
     case DESELECT_CLONE:
-      return Object.assign({}, state, {
-        inventory: state.inventory.map((c) => {
+      return assign({
+        inventory: inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.selected = false
             c.selectedAmount = 1
@@ -68,20 +103,20 @@ export const clonesReducer = (
       })
 
     case SELECT_ALL_CLONEs:
-      if (!checkCount(state)) {
+      if (!checkCount()) {
         return state
       }
 
-      return Object.assign({}, state, {
-        inventory: state.inventory.map((c) => {
+      return assign({
+        inventory: inventory.map((c) => {
           c.selected = true
           return c
         }),
       })
 
     case DESELECT_ALL_CLONEs:
-      return Object.assign({}, state, {
-        inventory: state.inventory.map((c) => {
+      return assign({
+        inventory: inventory.map((c) => {
           c.selected = false
           c.selectedAmount = 1
           return c
@@ -89,8 +124,8 @@ export const clonesReducer = (
       })
 
     case STAR_CLONE:
-      return Object.assign({}, state, {
-        inventory: state.inventory.map((c) => {
+      return assign({
+        inventory: inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.favorite = true
           }
@@ -99,8 +134,8 @@ export const clonesReducer = (
       })
 
     case UNSTAR_CLONE:
-      return Object.assign({}, state, {
-        inventory: state.inventory.map((c) => {
+      return assign({
+        inventory: inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.favorite = false
           }
@@ -109,16 +144,16 @@ export const clonesReducer = (
       })
 
     case CHANGE_AMOUNT_CLONE:
-      const clone = state.inventory.find((c) => c.id === action.payload.id)
+      const clone = inventory.find((c) => c.id === action.payload.id)
       const currentAmount =
         clone && clone.selectedAmount ? clone.selectedAmount : 0
 
-      if (action.payload.amount >= currentAmount && !checkCount(state)) {
+      if (action.payload.amount >= currentAmount && !checkCount()) {
         return state
       }
 
-      return Object.assign({}, state, {
-        inventory: state.inventory.map((c) => {
+      return assign({
+        inventory: inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.selectedAmount =
               action.payload.amount > 0 ? action.payload.amount : 1
@@ -129,8 +164,27 @@ export const clonesReducer = (
       })
 
     case SET_FILTER:
-      return Object.assign({}, state, {
+      return assign({
         filter: action.payload.filter,
+      })
+
+    case ADD_PAGE:
+      return Object.assign({}, state, {
+        pages: {
+          ...state.pages,
+          [action.payload.id]: emptyState(),
+        },
+      })
+
+    case DELETE_PAGE:
+      const newPages = {
+        ...state.pages,
+      }
+
+      delete newPages[action.payload.id]
+
+      return Object.assign({}, state, {
+        pages: newPages,
       })
 
     default:
@@ -145,14 +199,9 @@ function createClone(genes: Gene[]): Clone {
   }
 }
 
-function checkCount(state: ClonesState) {
-  const clones = state.inventory.filter((c) => c.selected)
-  const count = countSeeds(clones)
-
-  if (count >= 8) {
-    message.error('You can only fit 8 + 1 seed in a large planter box')
-    return false
+function emptyState() {
+  return {
+    inventory: [],
+    filter: emptyClone(),
   }
-
-  return true
 }
