@@ -8,7 +8,7 @@ import {
   SearchOutlined,
 } from '@ant-design/icons'
 import { List, Card, Button, Checkbox, Popconfirm, Modal } from 'antd'
-import { connect } from 'react-redux'
+import { connect, DispatchProp } from 'react-redux'
 import { RootState } from '../../store/state'
 import { Clone, Gene } from '../../models/Clone'
 import { GeneInput } from '../GeneInput'
@@ -27,16 +27,8 @@ import classNames from 'classnames'
 
 const { confirm } = Modal
 
-interface Props {
+interface Props extends DispatchProp {
   inventory: Clone[]
-  addClone: typeof addClone
-  selectClone: typeof selectClone
-  deselectClone: typeof deselectClone
-  deleteClone: typeof deleteClone
-  starClone: typeof starClone
-  unstarClone: typeof unstarClone
-  selectAllClones: typeof selectAllClones
-  deselectAllClones: typeof deselectAllClones
 }
 
 const tabList = [
@@ -50,17 +42,7 @@ const tabList = [
   },
 ]
 
-const CloneListComponent: FC<Props> = ({
-  inventory,
-  addClone,
-  selectClone,
-  deselectClone,
-  deleteClone,
-  starClone,
-  unstarClone,
-  selectAllClones,
-  deselectAllClones,
-}) => {
+const CloneListComponent: FC<Props> = ({ inventory, dispatch }) => {
   const [addNewClone, setAddNewClone] = useState(emptyClone())
   const [activeTab, setActiveTab] = useState('all')
   const [filter, setFilter] = useState(emptyClone())
@@ -105,7 +87,7 @@ const CloneListComponent: FC<Props> = ({
               onChange={(v) => {
                 const add = () => {
                   setAddNewClone(emptyClone())
-                  addClone(v)
+                  dispatch(addClone(v))
                   setActiveTab('all')
                 }
 
@@ -142,9 +124,9 @@ const CloneListComponent: FC<Props> = ({
                 <Checkbox
                   onChange={(e) => {
                     if (e.target.checked) {
-                      selectAllClones()
+                      dispatch(selectAllClones())
                     } else {
-                      deselectAllClones()
+                      dispatch(deselectAllClones())
                     }
                   }}
                   checked={
@@ -181,8 +163,8 @@ const CloneListComponent: FC<Props> = ({
                     checked={item.selected}
                     onChange={(e) =>
                       e.target.checked
-                        ? selectClone(item.id)
-                        : deselectClone(item.id)
+                        ? dispatch(selectClone(item.id))
+                        : dispatch(deselectClone(item.id))
                     }
                   />
                 </div>
@@ -191,9 +173,9 @@ const CloneListComponent: FC<Props> = ({
                     type={item.favorite ? 'default' : 'dashed'}
                     onClick={() => {
                       if (item.favorite) {
-                        unstarClone(item.id)
+                        dispatch(unstarClone(item.id))
                       } else {
-                        starClone(item.id)
+                        dispatch(starClone(item.id))
                       }
                     }}
                     icon={
@@ -211,7 +193,7 @@ const CloneListComponent: FC<Props> = ({
                 <Popconfirm
                   placement={'topLeft'}
                   title="Are you sure? this cannot be undone"
-                  onConfirm={() => deleteClone(item.id)}
+                  onConfirm={() => dispatch(deleteClone(item.id))}
                 >
                   <Button shape="circle" icon={<DeleteOutlined />} />
                 </Popconfirm>
@@ -228,20 +210,6 @@ const mapStateToProps = (state: RootState) => ({
   inventory: state.clones.inventory,
 })
 
-const mapDispatch = {
-  addClone,
-  selectClone,
-  deselectClone,
-  deleteClone,
-  starClone,
-  unstarClone,
-  selectAllClones,
-  deselectAllClones,
-}
-
-export const CloneList = connect(
-  mapStateToProps,
-  mapDispatch
-)(CloneListComponent)
+export const CloneList = connect(mapStateToProps)(CloneListComponent)
 
 const emptyClone = (): Gene[] => ['', '', '', '', '', '']
