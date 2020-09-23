@@ -108,7 +108,11 @@ export const clonesReducer = (
       }
 
     case CHANGE_AMOUNT_CLONE:
-      if (!checkCount(state)) {
+      const clone = state.inventory.find((c) => c.id === action.payload.id)
+      const currentAmount =
+        clone && clone.selectedAmount ? clone.selectedAmount : 0
+
+      if (action.payload.amount >= currentAmount && !checkCount(state)) {
         return state
       }
 

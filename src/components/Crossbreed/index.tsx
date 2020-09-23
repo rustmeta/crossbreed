@@ -6,7 +6,12 @@ import { RootState } from '../../store/state'
 import { Clone, Gene } from '../../models/Clone'
 import { GeneList } from '../GeneList'
 import { countSeeds, crossbreed } from '../../lib/crossbreed'
-import { CloseOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons'
+import {
+  CloseOutlined,
+  EnterOutlined,
+  MinusOutlined,
+  PlusOutlined,
+} from '@ant-design/icons'
 import { changeAmountClone } from '../../store/clones/actions'
 
 interface Props {
@@ -46,59 +51,95 @@ const CrossbreedComponent: FC<Props> = ({ clones, changeAmountClone }) => {
     return arr
   }
 
+  const extendedClones = extendClones(clones)
+
   return (
     <div className={styles.container}>
       <Card title={`Crossbreeding (${countSeeds(clones)} seeds)`}>
         <List
-          dataSource={clones}
-          renderItem={(item) => (
-            <List.Item className={styles.listItem}>
-              <div className={styles.row}>
-                <div className={styles.column}>
-                  <GeneList size="small" genes={item.genes} />
-                </div>
-                <div className={styles.column}>
-                  <CloseOutlined />
-                </div>
-                <div className={styles.column}>
-                  <span className={styles.times}>
-                    {item.selectedAmount ? item.selectedAmount : 1}
-                  </span>
-                </div>
-                <div className={styles.column}>
-                  <div className={styles.amountModifiers}>
-                    <Button
-                      size="small"
-                      shape="circle"
-                      onClick={() =>
-                        changeAmountClone(
-                          item.id,
-                          item.selectedAmount ? item.selectedAmount + 1 : 2
-                        )
-                      }
-                      icon={<PlusOutlined />}
-                    />
-                    <Button
-                      size="small"
-                      shape="circle"
-                      onClick={() =>
-                        changeAmountClone(
-                          item.id,
-                          item.selectedAmount ? item.selectedAmount - 1 : 1
-                        )
-                      }
-                      icon={<MinusOutlined />}
-                    />
+          dataSource={extendedClones}
+          renderItem={(item) => {
+            const isCopy = item.id === ''
+
+            return (
+              <List.Item className={styles.listItem}>
+                <div className={styles.row}>
+                  <div className={styles.column}>
+                    <GeneList size="small" genes={item.genes} />
+                  </div>
+                  <div className={styles.column}>
+                    {isCopy ? <EnterOutlined /> : <CloseOutlined />}
+                  </div>
+                  <div className={styles.column}>
+                    <span className={styles.times}>
+                      {isCopy
+                        ? null
+                        : item.selectedAmount
+                        ? item.selectedAmount
+                        : 1}
+                    </span>
+                  </div>
+                  <div className={styles.column}>
+                    {!isCopy && (
+                      <div className={styles.amountModifiers}>
+                        <Button
+                          size="small"
+                          shape="circle"
+                          onClick={() =>
+                            changeAmountClone(
+                              item.id,
+                              item.selectedAmount ? item.selectedAmount + 1 : 2
+                            )
+                          }
+                          icon={<PlusOutlined />}
+                        />
+                        <Button
+                          size="small"
+                          shape="circle"
+                          onClick={() =>
+                            changeAmountClone(
+                              item.id,
+                              item.selectedAmount ? item.selectedAmount - 1 : 1
+                            )
+                          }
+                          icon={<MinusOutlined />}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
-            </List.Item>
-          )}
+              </List.Item>
+            )
+          }}
         />
-        <div className={styles.resultRow}>{renderResult(clones)}</div>
+        <div className={styles.resultRow}>{renderResult(extendedClones)}</div>
       </Card>
     </div>
   )
+}
+
+function extendClones(clones: Clone[]) {
+  const newClones = clones.slice()
+  for (let i = 0; i < newClones.length; i++) {
+    const clone = newClones[i]
+    if (clone.selectedAmount && clone.selectedAmount > 1) {
+      for (let j = 0; j < clone.selectedAmount - 1; j++) {
+        newClones.splice(i + 1, 0, copyClone(clone))
+        i++
+      }
+    }
+  }
+
+  return newClones
+}
+
+function copyClone(clone: Clone) {
+  return {
+    id: '',
+    genes: clone.genes,
+    selected: true,
+    selectedAmount: 0,
+  } as Clone
 }
 
 const mapStateToProps = (state: RootState) => ({
