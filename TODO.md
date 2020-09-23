@@ -7,7 +7,7 @@
 - [x] crossbreed amount field
 - [x] crossbreed limit seeds (incl amount field)
 - [] clone stats (yield, time, water etc.)
-- [] pages
+- [x] pages
 - [] ML/calculations
 - [] info box about genes
 - [] layout fix (scroll etc.)
