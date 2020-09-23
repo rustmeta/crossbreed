@@ -10,14 +10,16 @@ import {
   SELECT_ALL_CLONEs,
   DESELECT_ALL_CLONEs,
   CHANGE_AMOUNT_CLONE,
+  SET_FILTER,
 } from './types'
-import { Gene, Clone } from '../../models/Clone'
+import { Gene, Clone, emptyClone } from '../../models/Clone'
 import { v4 as uuid } from 'uuid'
 import { countSeeds } from '../../lib/crossbreed'
 import { message } from 'antd'
 
 const initialState: ClonesState = {
   inventory: [],
+  filter: emptyClone(),
 }
 
 export const clonesReducer = (
@@ -30,21 +32,21 @@ export const clonesReducer = (
         return state
       }
 
-      return {
+      return Object.assign({}, state, {
         inventory: [...state.inventory, createClone(action.payload.genes)],
-      }
+      })
 
     case DELETE_CLONE:
-      return {
+      return Object.assign({}, state, {
         inventory: state.inventory.filter((c) => c.id !== action.payload.id),
-      }
+      })
 
     case SELECT_CLONE:
       if (!checkCount(state)) {
         return state
       }
 
-      return {
+      return Object.assign({}, state, {
         inventory: state.inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.selected = true
@@ -52,10 +54,10 @@ export const clonesReducer = (
           }
           return c
         }),
-      }
+      })
 
     case DESELECT_CLONE:
-      return {
+      return Object.assign({}, state, {
         inventory: state.inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.selected = false
@@ -63,48 +65,48 @@ export const clonesReducer = (
           }
           return c
         }),
-      }
+      })
 
     case SELECT_ALL_CLONEs:
       if (!checkCount(state)) {
         return state
       }
 
-      return {
+      return Object.assign({}, state, {
         inventory: state.inventory.map((c) => {
           c.selected = true
           return c
         }),
-      }
+      })
 
     case DESELECT_ALL_CLONEs:
-      return {
+      return Object.assign({}, state, {
         inventory: state.inventory.map((c) => {
           c.selected = false
           c.selectedAmount = 1
           return c
         }),
-      }
+      })
 
     case STAR_CLONE:
-      return {
+      return Object.assign({}, state, {
         inventory: state.inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.favorite = true
           }
           return c
         }),
-      }
+      })
 
     case UNSTAR_CLONE:
-      return {
+      return Object.assign({}, state, {
         inventory: state.inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.favorite = false
           }
           return c
         }),
-      }
+      })
 
     case CHANGE_AMOUNT_CLONE:
       const clone = state.inventory.find((c) => c.id === action.payload.id)
@@ -115,7 +117,7 @@ export const clonesReducer = (
         return state
       }
 
-      return {
+      return Object.assign({}, state, {
         inventory: state.inventory.map((c) => {
           if (c.id === action.payload.id) {
             c.selectedAmount =
@@ -124,7 +126,12 @@ export const clonesReducer = (
 
           return c
         }),
-      }
+      })
+
+    case SET_FILTER:
+      return Object.assign({}, state, {
+        filter: action.payload.filter,
+      })
 
     default:
       return state

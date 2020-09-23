@@ -10,7 +10,7 @@ import {
 import { List, Card, Button, Checkbox, Popconfirm, Modal } from 'antd'
 import { connect, DispatchProp } from 'react-redux'
 import { RootState } from '../../store/state'
-import { Clone, Gene } from '../../models/Clone'
+import { Clone, emptyClone, Gene } from '../../models/Clone'
 import { GeneInput } from '../GeneInput'
 import { GeneList } from '../GeneList'
 import {
@@ -22,6 +22,7 @@ import {
   unstarClone,
   selectAllClones,
   deselectAllClones,
+  setFilter,
 } from '../../store/clones/actions'
 import classNames from 'classnames'
 
@@ -29,6 +30,7 @@ const { confirm } = Modal
 
 interface Props extends DispatchProp {
   inventory: Clone[]
+  filter: Gene[]
 }
 
 const tabList = [
@@ -42,12 +44,11 @@ const tabList = [
   },
 ]
 
-const CloneListComponent: FC<Props> = ({ inventory, dispatch }) => {
+const CloneListComponent: FC<Props> = ({ inventory, filter, dispatch }) => {
   const [addNewClone, setAddNewClone] = useState(emptyClone())
   const [activeTab, setActiveTab] = useState('all')
-  const [filter, setFilter] = useState(emptyClone())
 
-  const hasFilter = filter.filter((c) => c !== '').length > 0
+  const hasFilter = filter && filter.filter((c) => c !== '').length > 0
 
   let dataSource =
     activeTab === 'all' ? inventory : inventory.filter((c) => c.favorite)
@@ -146,7 +147,7 @@ const CloneListComponent: FC<Props> = ({ inventory, dispatch }) => {
                 <GeneInput
                   singleMode
                   value={filter}
-                  onChange={(v) => setFilter(v)}
+                  onChange={(v) => dispatch(setFilter(v))}
                 />
               </div>
             </div>
@@ -208,8 +209,7 @@ const CloneListComponent: FC<Props> = ({ inventory, dispatch }) => {
 
 const mapStateToProps = (state: RootState) => ({
   inventory: state.clones.inventory,
+  filter: state.clones.filter,
 })
 
 export const CloneList = connect(mapStateToProps)(CloneListComponent)
-
-const emptyClone = (): Gene[] => ['', '', '', '', '', '']

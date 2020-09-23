@@ -9,6 +9,7 @@ export const DESELECT_CLONE = 'DESELECT_CLONE'
 export const STAR_CLONE = 'STAR_CLONE'
 export const UNSTAR_CLONE = 'UNSTAR_CLONE'
 export const CHANGE_AMOUNT_CLONE = 'CHANGE_AMOUNT_CLONE'
+export const SET_FILTER = 'SET_FILTER'
 
 interface AddCloneAction {
   type: typeof ADD_CLONE
@@ -68,6 +69,13 @@ interface ChangeAmountCloneAction {
   }
 }
 
+interface SetFilterAction {
+  type: typeof SET_FILTER
+  payload: {
+    filter: Gene[]
+  }
+}
+
 export type CloneActionType =
   | AddCloneAction
   | DeleteCloneAction
@@ -78,3 +86,4 @@ export type CloneActionType =
   | SelectAllCloneAction
   | DeselectAllCloneAction
   | ChangeAmountCloneAction
+  | SetFilterAction

@@ -7,3 +7,5 @@ export interface Clone {
 }
 
 export type Gene = 'W' | 'X' | 'Y' | 'G' | 'H' | ''
+
+export const emptyClone = (): Gene[] => ['', '', '', '', '', '']

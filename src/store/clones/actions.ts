@@ -9,6 +9,7 @@ import {
   SELECT_ALL_CLONEs,
   DESELECT_ALL_CLONEs,
   CHANGE_AMOUNT_CLONE,
+  SET_FILTER,
 } from './types'
 import { Gene } from '../../models/Clone'
 
@@ -78,12 +79,21 @@ export function unstarClone(id: string): CloneActionType {
   }
 }
 
-export function changeAmountClone(id: string, amount: number) {
+export function changeAmountClone(id: string, amount: number): CloneActionType {
   return {
     type: CHANGE_AMOUNT_CLONE,
     payload: {
       id,
       amount,
+    },
+  }
+}
+
+export function setFilter(filter: Gene[]): CloneActionType {
+  return {
+    type: SET_FILTER,
+    payload: {
+      filter,
     },
   }
 }
