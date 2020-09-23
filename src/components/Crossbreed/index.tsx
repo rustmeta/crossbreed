@@ -56,6 +56,9 @@ const CrossbreedComponent: FC<Props> = ({ clones, changeAmountClone }) => {
   return (
     <div className={styles.container}>
       <Card title={`Crossbreeding (${countSeeds(clones)} seeds)`}>
+        <div className={styles.text}>
+          Crossbreed one random seed with the following clones:
+        </div>
         <List
           dataSource={extendedClones}
           renderItem={(item) => {
@@ -112,7 +115,16 @@ const CrossbreedComponent: FC<Props> = ({ clones, changeAmountClone }) => {
             )
           }}
         />
-        <div className={styles.resultRow}>{renderResult(extendedClones)}</div>
+        <div className={styles.resultRow}>
+          <div className={styles.text}>Outcome:</div>
+          <List>
+            <List.Item>
+              <div className={styles.result}>
+                {renderResult(extendedClones)}
+              </div>
+            </List.Item>
+          </List>
+        </div>
       </Card>
     </div>
   )

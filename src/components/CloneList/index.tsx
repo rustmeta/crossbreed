@@ -90,40 +90,51 @@ const CloneListComponent: FC<Props> = ({
         activeTabKey={activeTab}
         onTabChange={setActiveTab}
       >
-        <div className={styles.addNewContainer}>
-          <GeneInput
-            value={addNewClone}
-            onChange={(v) => {
-              const add = () => {
-                setAddNewClone(emptyClone())
-                addClone(v)
-                setActiveTab('all')
-              }
+        <div className={styles.info}>
+          <p>
+            This is your registered clones. Select clones (with checkbox) to get
+            the crossbreed outcome.
+          </p>
+        </div>
 
-              if (v.filter((g) => g === '').length === 0) {
-                const geneString = v.join('')
-                const copies = inventory
-                  .map((i) => i.genes.join(''))
-                  .filter((g) => g === geneString)
-                if (copies.length > 0) {
-                  confirm({
-                    title: `There are already ${copies.length} clones added with same genetics. Are you sure you want to add a copy?`,
-                    onOk: add,
-                    onCancel: () => {
-                      setAddNewClone(emptyClone())
-                    },
-                  })
-                } else {
-                  add()
+        <div className={styles.addNewContainer}>
+          <div className={styles.addon}>Add clone:</div>
+          <div className={styles.input}>
+            <GeneInput
+              value={addNewClone}
+              onChange={(v) => {
+                const add = () => {
+                  setAddNewClone(emptyClone())
+                  addClone(v)
+                  setActiveTab('all')
                 }
 
-                return
-              }
+                if (v.filter((g) => g === '').length === 0) {
+                  const geneString = v.join('')
+                  const copies = inventory
+                    .map((i) => i.genes.join(''))
+                    .filter((g) => g === geneString)
+                  if (copies.length > 0) {
+                    confirm({
+                      title: `There are already ${copies.length} clones added with same genetics. Are you sure you want to add a copy?`,
+                      onOk: add,
+                      onCancel: () => {
+                        setAddNewClone(emptyClone())
+                      },
+                    })
+                  } else {
+                    add()
+                  }
 
-              setAddNewClone(v)
-            }}
-          />
+                  return
+                }
+
+                setAddNewClone(v)
+              }}
+            />
+          </div>
         </div>
+
         <List size="small">
           <List.Item>
             <div className={classNames(styles.searchRow, styles.row)}>

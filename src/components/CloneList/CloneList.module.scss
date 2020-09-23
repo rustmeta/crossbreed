@@ -1,9 +1,21 @@
-.container {
-}
-
 .addNewContainer {
-  padding-bottom: 20px;
-  padding-left: 10px;
+  display: inline-flex;
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  margin-bottom: 20px;
+
+  .addon {
+    height: 40px;
+    background-color: #fafafa;
+    border-right: 1px solid #d9d9d9;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+  }
+
+  .input {
+    padding: 5px 10px;
+  }
 }
 
 .row {
@@ -13,6 +25,8 @@
 
   .column {
     padding-right: 15px;
+    display: flex;
+    align-items: center;
   }
 
   .spacer {
@@ -23,17 +37,11 @@
 .searchRow {
   display: flex;
 
-  .selectAllColumn {
-  }
-
   .searchIconContainer {
     width: 32px;
     height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .genePickerContainer {
   }
 }

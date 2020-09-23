@@ -15,7 +15,6 @@ import { Gene, Clone } from '../../models/Clone'
 import { v4 as uuid } from 'uuid'
 import { countSeeds } from '../../lib/crossbreed'
 import { message } from 'antd'
-import { RootState } from '../state'
 
 const initialState: ClonesState = {
   inventory: [],
