@@ -5,6 +5,8 @@ import App from '../../App'
 import { LOCALSTORAGE_KEY } from '../../constants/storage'
 import { copyToClipboard } from '../../lib/copy'
 
+const { confirm } = Modal
+
 const { TextArea } = Input
 
 interface Props {}
@@ -28,6 +30,21 @@ export const HeaderMenu: FC<Props> = () => {
       </Menu.Item>
       <Menu.Item onClick={() => setModalVisible(true)}>
         Import data (paste)
+      </Menu.Item>
+      <Menu.Item
+        onClick={() =>
+          confirm({
+            title: 'This will delete all data and cannot be undone.',
+            okText: 'WIPE!!',
+            okType: 'danger',
+            onOk: () => {
+              localStorage.removeItem(LOCALSTORAGE_KEY)
+              window.location.reload()
+            },
+          })
+        }
+      >
+        Wipe Data
       </Menu.Item>
     </Menu>
   )
