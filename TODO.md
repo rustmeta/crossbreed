@@ -12,3 +12,4 @@
 - [] info box about genes
 - [] layout fix (scroll etc.)
 - [] guide/information about software
+- [] manifest
