@@ -26,7 +26,6 @@
 
 .resultRow {
   padding-top: 30px;
-  border-top: 2px solid #ddd;
 
   .row {
     padding-bottom: 10px;
@@ -35,4 +34,8 @@
 
 .times {
   font-size: 16px;
+}
+
+.empty {
+  padding: 60px 0;
 }
