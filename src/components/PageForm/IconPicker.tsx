@@ -13,7 +13,7 @@ export const IconPicker: FC<Props> = ({ onChange, value }) => {
   return (
     <div className={styles.iconPicker}>
       {Object.keys(pageIcons).map((key) => (
-        <Tooltip title={pageIconsTitle[key]}>
+        <Tooltip key={key} title={pageIconsTitle[key]}>
           <div
             onClick={() => onChange(key)}
             className={classNames(styles.icon, {
