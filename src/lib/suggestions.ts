@@ -22,6 +22,16 @@ export function suggest(clones: Gene[][], bestScore: number): Suggestion[] {
     let crossed = crossbreed(parents)
     let value = evaluate(crossed, bestScore)
 
+    if (value === 0) {
+      // best no need to continue
+      return [
+        {
+          result: crossed,
+          clones: parents,
+        },
+      ]
+    }
+
     if (value < closestScore) {
       // better
       closestScore = value

@@ -11,10 +11,10 @@ const value = {
   YG: 4,
   GY: 4,
 
-  YH: 3,
-  HY: 3,
-  GH: 3,
-  HG: 3,
+  YH: 2.3,
+  HY: 2.3,
+  GH: 2.3,
+  HG: 2.3,
 }
 
 export const SCORE_YYGGGG = getScore(['Y', 'Y', 'G', 'G', 'G', 'G'])
