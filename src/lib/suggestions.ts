@@ -3,7 +3,7 @@ import { bwPowerSet } from './math'
 import { crossbreed } from './crossbreed'
 import { evaluate } from './evaluate'
 
-interface Suggestion {
+export interface Suggestion {
   clones: Gene[][]
   result: string[]
 }

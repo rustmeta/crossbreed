@@ -7,6 +7,7 @@ import { Pages } from '../Pages'
 import { connect } from 'react-redux'
 import { RootState } from '../../store/state'
 import { PageForm } from '../PageForm'
+import { Suggestions } from '../Suggestions'
 
 interface Props {
   intro: boolean
@@ -30,6 +31,8 @@ const LayoutComponent: FC<Props> = ({ intro, introId }) => {
         <div className={styles.content}>
           <div className={styles.left}>
             <Crossbreed />
+            <div style={{ height: 20 }} />
+            <Suggestions />
           </div>
           <div className={styles.right}>
             <CloneList />
