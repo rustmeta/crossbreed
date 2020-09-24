@@ -23,7 +23,7 @@ export const SCORE_YYGGGH = getScore(['Y', 'Y', 'Y', 'G', 'G', 'H'])
 
 export function getScore(clone: string[]) {
   return clone.reduce((score, gene) => {
-    const valueScore = value[gene]
+    const valueScore = (value as any)[gene]
     score += valueScore ? valueScore : 0
     return score
   }, 0)
