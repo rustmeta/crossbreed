@@ -56,7 +56,7 @@ describe('suggestions', () => {
 
     const res = suggest(myClones, SCORE_YYGGGG)
 
-    expect(res).toHaveLength(2)
+    expect(res).toHaveLength(1)
   })
 
   it('suggests different order', () => {
