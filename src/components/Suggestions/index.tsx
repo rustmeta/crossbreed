@@ -26,6 +26,8 @@ const SuggestionsComponent: FC<Props> = ({ clones }) => {
           SCORE_YYGGGG
         )
       )
+    } else {
+      setSuggestions([])
     }
   }, [clones])
 

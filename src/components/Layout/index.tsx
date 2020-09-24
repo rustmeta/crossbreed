@@ -28,14 +28,14 @@ const LayoutComponent: FC<Props> = ({ intro, introId }) => {
       <div className={styles.tabs}>
         <Pages />
       </div>
+      <div className={styles.right}>
+        <CloneList />
+      </div>
       <div className={styles.left}>
         <Crossbreed />
       </div>
       <div className={styles.leftBottom}>
         <Suggestions />
-      </div>
-      <div className={styles.right}>
-        <CloneList />
       </div>
       <footer className={styles.footer}>
         <Footer />
