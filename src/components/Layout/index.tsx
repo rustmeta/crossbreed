@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { RootState } from '../../store/state'
 import { PageForm } from '../PageForm'
 import { Suggestions } from '../Suggestions'
+import { Footer } from '../Footer'
 
 interface Props {
   intro: boolean
@@ -21,24 +22,24 @@ const LayoutComponent: FC<Props> = ({ intro, introId }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
+      <header className={styles.header}>
         <Header />
+      </header>
+      <div className={styles.tabs}>
+        <Pages />
       </div>
-      <div className={styles.pages}>
-        <div className={styles.tabs}>
-          <Pages />
-        </div>
-        <div className={styles.content}>
-          <div className={styles.left}>
-            <Crossbreed />
-            <div style={{ height: 20 }} />
-            <Suggestions />
-          </div>
-          <div className={styles.right}>
-            <CloneList />
-          </div>
-        </div>
+      <div className={styles.right}>
+        <CloneList />
       </div>
+      <div className={styles.left}>
+        <Crossbreed />
+      </div>
+      <div className={styles.leftBottom}>
+        <Suggestions />
+      </div>
+      <footer className={styles.footer}>
+        <Footer />
+      </footer>
     </div>
   )
 }

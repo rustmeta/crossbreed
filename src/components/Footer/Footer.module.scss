@@ -1,14 +1,11 @@
 .container {
   display: flex;
-  height: 100%;
-  align-items: center;
-  padding: 0 20px;
-}
-
-.spacer {
   flex: 1;
+  align-items: center;
+  font-size: 14px;
+  padding: 0 20px;
+  background: #f0f0f0;
 }
 
-.brand {
-  font-size: 20px;
+.madeBy {
 }
