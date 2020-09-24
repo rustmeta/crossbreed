@@ -1,4 +1,4 @@
-export function* bwPowerSet(originalSet: any, maxDepth = -1) {
+export function* bwPowerSet(originalSet: any, maxDepth = -1, minDepth = 2) {
   if (maxDepth === -1) maxDepth = originalSet.length
   const numberOfCombinations = 2 ** originalSet.length
   for (
@@ -16,7 +16,7 @@ export function* bwPowerSet(originalSet: any, maxDepth = -1) {
       if (depth > maxDepth) break
     }
 
-    if (depth <= maxDepth) {
+    if (depth <= maxDepth && depth >= minDepth) {
       for (
         let setElementIndex = 0;
         setElementIndex < originalSet.length;

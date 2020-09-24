@@ -65,4 +65,13 @@ describe('generation', () => {
       ])
     ).toEqual(['Y', 'H', 'X', 'G', 'W', 'W'])
   })
+
+  it('calculates 50/50', () => {
+    expect(
+      crossbreed([
+        ['Y', 'Y', 'Y', 'G', 'G', 'G'],
+        ['G', 'Y', 'Y', 'G', 'G', 'G'],
+      ])
+    ).toEqual(['YG', 'Y', 'Y', 'G', 'G', 'G'])
+  })
 })
