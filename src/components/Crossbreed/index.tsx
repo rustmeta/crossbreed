@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import styles from './Crossbreed.module.scss'
-import { List, Card, Button } from 'antd'
+import { List, Button } from 'antd'
 import { connect } from 'react-redux'
 import { RootState } from '../../store/state'
 import { Clone, Gene } from '../../models/Clone'
@@ -14,6 +14,7 @@ import {
 } from '@ant-design/icons'
 import { changeAmountClone } from '../../store/clones/actions'
 import { ThunkDispatch } from 'redux-thunk'
+import { FlexCard } from '../FlexCard'
 
 interface Props {
   clones: Clone[]
@@ -58,83 +59,77 @@ const CrossbreedComponent: FC<Props & Dispatch> = ({ clones, dispatch }) => {
   const extendedClones = extendClones(clones)
 
   return (
-    <div className={styles.container}>
-      <Card title={`Crossbreeding (${countSeeds(clones)} seeds)`}>
-        <div className={styles.text}>
-          Crossbreed one random seed with the following clones:
-        </div>
-        <List
-          dataSource={extendedClones}
-          renderItem={(item) => {
-            const isCopy = item.id === ''
+    <FlexCard title={`Crossbreeding (${countSeeds(clones)} seeds)`}>
+      <div className={styles.text}>
+        Crossbreed one random seed with the following clones:
+      </div>
+      <List
+        dataSource={extendedClones}
+        renderItem={(item) => {
+          const isCopy = item.id === ''
 
-            return (
-              <List.Item className={styles.listItem}>
-                <div className={styles.row}>
-                  <div className={styles.column}>
-                    <GeneList size="small" genes={item.genes} />
-                  </div>
-                  <div className={styles.column}>
-                    {isCopy ? <EnterOutlined /> : <CloseOutlined />}
-                  </div>
-                  <div className={styles.column}>
-                    <span className={styles.times}>
-                      {isCopy
-                        ? null
-                        : item.selectedAmount
-                        ? item.selectedAmount
-                        : 1}
-                    </span>
-                  </div>
-                  <div className={styles.column}>
-                    {!isCopy && (
-                      <div className={styles.amountModifiers}>
-                        <Button
-                          size="small"
-                          shape="circle"
-                          onClick={() =>
-                            dispatch(
-                              changeAmountClone(
-                                item.id,
-                                item.selectedAmount
-                                  ? item.selectedAmount + 1
-                                  : 2
-                              )
-                            )
-                          }
-                          icon={<PlusOutlined />}
-                        />
-                        <Button
-                          size="small"
-                          shape="circle"
-                          onClick={() =>
+          return (
+            <List.Item className={styles.listItem}>
+              <div className={styles.row}>
+                <div className={styles.column}>
+                  <GeneList size="small" genes={item.genes} />
+                </div>
+                <div className={styles.column}>
+                  {isCopy ? <EnterOutlined /> : <CloseOutlined />}
+                </div>
+                <div className={styles.column}>
+                  <span className={styles.times}>
+                    {isCopy
+                      ? null
+                      : item.selectedAmount
+                      ? item.selectedAmount
+                      : 1}
+                  </span>
+                </div>
+                <div className={styles.column}>
+                  {!isCopy && (
+                    <div className={styles.amountModifiers}>
+                      <Button
+                        size="small"
+                        shape="circle"
+                        onClick={() =>
+                          dispatch(
                             changeAmountClone(
                               item.id,
-                              item.selectedAmount ? item.selectedAmount - 1 : 1
+                              item.selectedAmount ? item.selectedAmount + 1 : 2
                             )
-                          }
-                          icon={<MinusOutlined />}
-                        />
-                      </div>
-                    )}
-                  </div>
+                          )
+                        }
+                        icon={<PlusOutlined />}
+                      />
+                      <Button
+                        size="small"
+                        shape="circle"
+                        onClick={() =>
+                          changeAmountClone(
+                            item.id,
+                            item.selectedAmount ? item.selectedAmount - 1 : 1
+                          )
+                        }
+                        icon={<MinusOutlined />}
+                      />
+                    </div>
+                  )}
                 </div>
-              </List.Item>
-            )
-          }}
-        />
-        <div className={styles.resultRow}>
-          <div className={styles.text}>Outcome:</div>
-          <List>
-            <List.Item>
-              <div className={styles.result}>
-                {renderResult(extendedClones)}
               </div>
             </List.Item>
-          </List>
-        </div>
-      </Card>
-    </div>
+          )
+        }}
+      />
+      <div className={styles.resultRow}>
+        <div className={styles.text}>Outcome:</div>
+        <List>
+          <List.Item>
+            <div className={styles.result}>{renderResult(extendedClones)}</div>
+          </List.Item>
+        </List>
+      </div>
+    </FlexCard>
   )
 }
 

@@ -8,6 +8,7 @@ interface Props {}
 const HeaderComponent: FC<Props> = () => {
   return (
     <div className={styles.container}>
+      <div className={styles.brand}>Rust Crossbreeder</div>
       <span className={styles.spacer} />
       <HeaderMenu />
     </div>

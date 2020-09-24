@@ -1,12 +1,13 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Card, Collapse, Empty, List } from 'antd'
+import { Collapse, Empty, List } from 'antd'
 import { connect } from 'react-redux'
 import { Clone } from '../../models/Clone'
 import { RootState } from '../../store/state'
-import styles from './Suggestions.module.scss'
+// import styles from './Suggestions.module.scss'
 import { GeneList } from '../GeneList'
 import { suggest, Suggestion } from '../../lib/suggestions'
 import { SCORE_YYGGGG } from '../../lib/evaluate'
+import { FlexCard } from '../FlexCard'
 
 const { Panel } = Collapse
 
@@ -29,7 +30,7 @@ const SuggestionsComponent: FC<Props> = ({ clones }) => {
   }, [clones])
 
   return (
-    <Card title="Suggested crossbreeds">
+    <FlexCard title="Suggested crossbreeds">
       {suggestions.length > 0 ? (
         <Collapse ghost>
           {suggestions.map((suggestion, i) => (
@@ -58,7 +59,7 @@ const SuggestionsComponent: FC<Props> = ({ clones }) => {
       ) : (
         <Empty description="No suggestions at this time" />
       )}
-    </Card>
+    </FlexCard>
   )
 }
 
