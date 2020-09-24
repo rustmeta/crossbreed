@@ -8,7 +8,7 @@ import {
   SearchOutlined,
   CloseOutlined,
 } from '@ant-design/icons'
-import { List, Card, Button, Checkbox, Popconfirm, Modal, Tabs } from 'antd'
+import { List, Button, Checkbox, Popconfirm, Modal, Tabs } from 'antd'
 import { connect } from 'react-redux'
 import { RootState } from '../../store/state'
 import { Clone, emptyClone, Gene } from '../../models/Clone'
@@ -40,17 +40,6 @@ interface Props {
 interface Dispatch {
   dispatch: ThunkDispatch<RootState, unknown, Action>
 }
-
-const tabList = [
-  {
-    key: 'all',
-    tab: 'all',
-  },
-  {
-    key: 'fav',
-    tab: 'favorites',
-  },
-]
 
 const CloneListComponent: FC<Props & Dispatch> = ({
   inventory,
