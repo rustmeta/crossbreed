@@ -34,7 +34,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "deploy": "deploy-aws-s3-cloudfront --bucket rustplanter --non-interactive --output-format colorized --distribution E3PB4UFPGIEAW7 --invalidation-path /* --react",
+    "deploy": "deploy-aws-s3-cloudfront --bucket rustplanter --non-interactive --output-format colorized --distribution E3PB4UFPGIEAW7 --invalidation-path /index.html --react",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
