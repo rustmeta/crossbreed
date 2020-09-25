@@ -14,10 +14,19 @@
 
   display: flex;
   align-items: center;
+  position: relative;
 
   img {
     width: 34px;
     height: 34px;
     margin-right: 10px;
+  }
+
+  .beta {
+    font-size: 10px;
+    color: red;
+    position: absolute;
+    right: -10px;
+    top: 0px;
   }
 }
