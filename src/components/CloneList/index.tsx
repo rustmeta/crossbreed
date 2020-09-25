@@ -7,6 +7,7 @@ import {
   DeleteOutlined,
   SearchOutlined,
   CloseOutlined,
+  PlusOutlined,
 } from '@ant-design/icons'
 import { List, Button, Checkbox, Popconfirm, Modal, Tabs } from 'antd'
 import { connect } from 'react-redux'
@@ -21,8 +22,8 @@ import {
   deleteClone,
   starClone,
   unstarClone,
-  selectAllClones,
-  deselectAllClones,
+  // selectAllClones,
+  // deselectAllClones,
   setFilter,
 } from '../../store/clones/actions'
 import classNames from 'classnames'
@@ -75,16 +76,12 @@ const CloneListComponent: FC<Props & Dispatch> = ({
         </Tabs>
       }
       extras={
-        <div className={styles.extras}>
-          <div className={styles.info}>
-            <p>
-              This is your registered clones. Select clones (with checkbox) to
-              get the crossbreed outcome.
-            </p>
-          </div>
-
-          <div className={styles.addNewContainer}>
-            <div className={styles.addon}>Add clone:</div>
+        <div>
+          <div className={styles.inputContainer}>
+            <div className={styles.addon}>
+              <span style={{ marginRight: 10 }}>Add clone</span>
+              <PlusOutlined />
+            </div>
             <div className={styles.input}>
               <GeneInput
                 value={addNewClone}
@@ -120,56 +117,33 @@ const CloneListComponent: FC<Props & Dispatch> = ({
               />
             </div>
           </div>
-
-          <List size="small">
-            <List.Item>
-              <div className={classNames(styles.searchRow, styles.row)}>
-                <div className={styles.column}>
-                  <Checkbox
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        dispatch(selectAllClones())
-                      } else {
-                        dispatch(deselectAllClones())
-                      }
-                    }}
-                    checked={
-                      inventory.filter((c) => c.selected).length ===
-                      inventory.length
-                    }
-                  />
-                </div>
-                <div className={styles.column}>
-                  <div className={styles.searchIconContainer}>
-                    <SearchOutlined style={{ fontSize: 20 }} />
-                  </div>
-                </div>
-                <div
-                  className={classNames(
-                    styles.genePickerContainer,
-                    styles.column
-                  )}
-                >
-                  <GeneInput
-                    singleMode
-                    value={filter}
-                    onChange={(v) => dispatch(setFilter(v))}
-                  />
-                </div>
-                <div className={styles.column}>
-                  {hasFilter && (
-                    <Button
-                      onClick={() => dispatch(setFilter(emptyClone()))}
-                      icon={<CloseOutlined />}
-                      shape="round"
-                    >
-                      Clear filter
-                    </Button>
-                  )}
-                </div>
+          <div className={styles.inputContainer}>
+            <div className={styles.addon}>
+              <span style={{ marginRight: 10 }}>Filter</span>
+              <SearchOutlined />
+            </div>
+            <div className={styles.input}>
+              <div className={classNames(styles.column)}>
+                <GeneInput
+                  singleMode
+                  value={filter}
+                  onChange={(v) => dispatch(setFilter(v))}
+                />
               </div>
-            </List.Item>
-          </List>
+              <div className={styles.column}>
+                {hasFilter && (
+                  <Button
+                    onClick={() => dispatch(setFilter(emptyClone()))}
+                    icon={<CloseOutlined />}
+                    shape="round"
+                    style={{ marginLeft: 10 }}
+                  >
+                    Clear filter
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       }
     >
@@ -180,14 +154,31 @@ const CloneListComponent: FC<Props & Dispatch> = ({
           <List.Item>
             <div className={styles.row}>
               <div className={styles.column}>
-                <Checkbox
-                  checked={item.selected}
-                  onChange={(e) =>
-                    e.target.checked
-                      ? dispatch(selectClone(item.id))
-                      : dispatch(deselectClone(item.id))
+                <Button
+                  shape="round"
+                  onClick={() => {
+                    if (item.selected) {
+                      dispatch(deselectClone(item.id))
+                    } else {
+                      dispatch(selectClone(item.id))
+                    }
+                  }}
+                  icon={
+                    <Checkbox
+                      style={{ marginRight: 10 }}
+                      checked={item.selected}
+                      onChange={(e) =>
+                        e.target.checked
+                          ? dispatch(selectClone(item.id))
+                          : dispatch(deselectClone(item.id))
+                      }
+                    />
                   }
-                />
+                  type="primary"
+                  ghost
+                >
+                  Plant
+                </Button>
               </div>
               <div className={styles.column}>
                 <Button
