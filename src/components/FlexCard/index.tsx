@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { isUndefined } from 'lodash'
 import styles from './FlexCard.module.scss'
+import classNames from 'classnames'
 
 interface Props {
   title: string
@@ -17,7 +18,15 @@ export const FlexCard: FC<Props> = ({ children, tabs, title, extras }) => {
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
         {hasTabs && <div className={styles.tabs}>{tabs}</div>}
-        {hasExtras && <div className={styles.extras}>{extras}</div>}
+        {hasExtras && (
+          <div
+            className={classNames(styles.extras, {
+              [styles.extrasBorder]: hasTabs,
+            })}
+          >
+            {extras}
+          </div>
+        )}
       </div>
       <div className={styles.body}>
         <div className={styles.inner}>

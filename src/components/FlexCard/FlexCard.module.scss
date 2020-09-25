@@ -30,6 +30,10 @@
   }
 }
 
+.extrasBorder {
+  border-top: 1px solid $border-color;
+}
+
 .body {
   flex: 1;
   position: relative;
