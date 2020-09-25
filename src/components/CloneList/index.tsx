@@ -71,8 +71,11 @@ const CloneListComponent: FC<Props & Dispatch> = ({
       title="My clones"
       tabs={
         <Tabs activeKey={activeTab} onChange={(k) => setActiveTab(k)}>
-          <Tabs.TabPane key={'all'} tab={'all'} />
-          <Tabs.TabPane key={'fav'} tab={'favorites'} />
+          <Tabs.TabPane tab={`all (${inventory.length})`} key={'all'} />
+          <Tabs.TabPane
+            tab={`favorites (${inventory.filter((c) => c.favorite).length})`}
+            key={'fav'}
+          />
         </Tabs>
       }
       extras={
