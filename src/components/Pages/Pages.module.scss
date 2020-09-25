@@ -1,3 +1,5 @@
+@import 'styles/shared';
+
 .tab {
   display: flex;
   align-items: center;
@@ -9,5 +11,15 @@
   img {
     width: 18px;
     height: 18px;
+  }
+}
+
+.tabs {
+  border-bottom: 1px solid $border-color;
+}
+
+:global {
+  .ant-tabs-nav {
+    margin-bottom: 0 !important;
   }
 }

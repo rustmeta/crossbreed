@@ -26,6 +26,7 @@ const PagesComponent: FC<Props> = ({ pages, activePage, dispatch }) => {
       <Tabs
         type="editable-card"
         activeKey={activePage}
+        className={styles.tabs}
         onChange={(key) => dispatch(changePage(key))}
         onEdit={(key, action) => {
           switch (action) {
