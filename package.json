@@ -38,7 +38,7 @@
     "test": "react-scripts test",
     "deploy": "deploy-aws-s3-cloudfront --bucket rustmeta --non-interactive --output-format colorized --destination /crossbreed --distribution EQO44NDCXRA12 --invalidation-path /crossbreed/index.html --react",
     "eject": "react-scripts eject",
-    "preversion": "npm run test && npm run build",
+    "preversion": "npm run test --watchAll=false && npm run build",
     "postversion": "npm run deploy"
   },
   "eslintConfig": {
