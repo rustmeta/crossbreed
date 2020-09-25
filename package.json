@@ -2,6 +2,7 @@
   "name": "rustplanter",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/crossbreed",
   "dependencies": {
     "@ant-design/colors": "^4.0.5",
     "@ant-design/icons": "^4.2.2",
@@ -34,7 +35,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "deploy": "deploy-aws-s3-cloudfront --bucket rustplanter --non-interactive --output-format colorized --distribution E3PB4UFPGIEAW7 --invalidation-path /index.html --react",
+    "deploy": "deploy-aws-s3-cloudfront --bucket rustmeta --non-interactive --output-format colorized --destination /crossbreed --distribution E1K5RU6O3SVNOD --invalidation-path /index.html --react",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
