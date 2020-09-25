@@ -1,7 +1,11 @@
 import React, { FC } from 'react'
 import styles from './Footer.module.scss'
+import preval from 'preval.macro'
+const pkg = require('../../../package.json') as { version: string }
 
 interface Props {}
+
+const buildDate = new Date(preval`module.exports = new Date();`)
 
 export const Footer: FC<Props> = () => {
   return (
@@ -14,6 +18,10 @@ export const Footer: FC<Props> = () => {
           </a>
         </span>
       </div>
+      <div className={styles.spacer} />
+      <span>
+        v{pkg.version} ({buildDate.toLocaleDateString()})
+      </span>
     </div>
   )
 }

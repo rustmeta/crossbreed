@@ -1,6 +1,6 @@
 {
   "name": "rustplanter",
-  "version": "0.1.0",
+  "version": "0.9.11",
   "private": true,
   "homepage": "/crossbreed",
   "dependencies": {
@@ -19,6 +19,7 @@
     "deploy-aws-s3-cloudfront": "^3.2.4",
     "lodash": "^4.17.20",
     "node-sass": "^4.14.1",
+    "preval.macro": "^5.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
@@ -36,7 +37,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "deploy": "deploy-aws-s3-cloudfront --bucket rustmeta --non-interactive --output-format colorized --destination /crossbreed --distribution EQO44NDCXRA12 --invalidation-path /crossbreed/index.html --react",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "preversion": "npm run build",
+    "postversion": "npm run deploy"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -56,6 +59,7 @@
   "devDependencies": {
     "@types/classnames": "^2.2.10",
     "@types/lodash": "^4.14.161",
+    "@types/preval.macro": "^3.0.0",
     "@types/react-redux": "^7.1.9",
     "@types/redux-actions": "^2.6.1",
     "@types/uuid": "^8.3.0",
