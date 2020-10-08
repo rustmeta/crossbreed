@@ -7,7 +7,7 @@ import { Pages } from '../Pages'
 import { connect } from 'react-redux'
 import { RootState } from '../../store/state'
 import { PageForm } from '../PageForm'
-import { Suggestions } from '../Suggestions'
+// import { Suggestions } from '../Suggestions'
 import { Footer } from '../Footer'
 
 interface Props {
@@ -34,9 +34,9 @@ const LayoutComponent: FC<Props> = ({ intro, introId }) => {
       <div className={styles.left}>
         <Crossbreed />
       </div>
-      <div className={styles.leftBottom}>
+      {/* <div className={styles.leftBottom}>
         <Suggestions />
-      </div>
+      </div> */}
       <footer className={styles.footer}>
         <Footer />
       </footer>
