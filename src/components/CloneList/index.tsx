@@ -56,7 +56,7 @@ const CloneListComponent: FC<Props & Dispatch> = ({
 
   if (hasFilter) {
     dataSource = dataSource.filter((c) => {
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i <= 5; i++) {
         if (filter[i] !== '' && filter[i] !== c.genes[i]) {
           return false
         }
