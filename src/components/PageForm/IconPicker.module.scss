@@ -1,3 +1,5 @@
+@import 'styles/shared';
+
 $size: 60px;
 .iconPicker {
   padding-top: 15px;
@@ -11,7 +13,7 @@ $size: 60px;
     height: $size;
     padding: 12px;
     border-radius: 50%;
-    border: 1px solid #d9d9d9;
+    border: 1px solid $border-color;
     margin: 5px;
     cursor: pointer;
 
@@ -21,7 +23,7 @@ $size: 60px;
     }
 
     &:hover {
-      background: #d9d9d9;
+      background: rgba(0, 0, 0, 0.2);
     }
 
     img {

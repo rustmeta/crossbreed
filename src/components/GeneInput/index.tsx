@@ -62,7 +62,7 @@ export const GeneInput: FC<Props> = ({
           style={{
             backgroundColor: realValue[i]
               ? colors[['W', 'X'].includes(realValue[i]) ? 'bad' : 'good']
-              : '#eee',
+              : '#303030',
           }}
           className={styles.geneContainer}
         >

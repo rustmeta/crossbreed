@@ -1,3 +1,5 @@
+@import 'styles/shared';
+
 $size: 30px;
 
 .container {
@@ -8,12 +10,12 @@ $size: 30px;
   width: $size;
   height: $size;
   border-radius: $size / 2;
-  background: #eee;
+  background: $border-color;
   margin-right: 5px;
 }
 
 .geneInput {
-  color: black;
+  color: white;
   width: $size;
   height: $size;
   border: none;
@@ -22,8 +24,5 @@ $size: 30px;
   text-align: center;
   margin: 0;
   padding: 0;
-
-  &.hasValue {
-    color: white;
-  }
+  font-weight: bold;
 }

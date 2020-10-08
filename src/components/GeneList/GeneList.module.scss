@@ -1,3 +1,5 @@
+@import 'styles/shared';
+
 .container {
   display: flex;
 }
@@ -5,9 +7,10 @@
 .gene {
   color: white;
   border-radius: 50%;
-  background: #eee;
+  background: $border-color;
   margin-right: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
 }
